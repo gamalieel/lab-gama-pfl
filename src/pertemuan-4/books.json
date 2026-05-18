@@ -1,0 +1,547 @@
+[
+  {
+    "id": 1,
+    "title": "The Great Gatsby",
+    "author": {
+      "name": "F. Scott Fitzgerald",
+      "bio": "American novelist known for his works in the Jazz Age."
+    },
+    "genre": "Fiction",
+    "publishedYear": 1925,
+    "price": 15.99,
+    "imageUrl": "https://picsum.photos/300/400?random=1",
+    "reviews": [
+      {
+        "user": "Alice",
+        "rating": 5,
+        "comment": "A timeless classic!"
+      },
+      {
+        "user": "Bob",
+        "rating": 4,
+        "comment": "Great read."
+      }
+    ],
+    "description": "A novel about the American Dream.",
+    "pages": 180,
+    "metadata": {
+      "publisher": "Scribner",
+      "isbn": "978-0743273565"
+    }
+  },
+  {
+    "id": 2,
+    "title": "To Kill a Mockingbird",
+    "author": {
+      "name": "Harper Lee",
+      "bio": "American novelist famous for her Pulitzer Prize-winning novel."
+    },
+    "genre": "Fiction",
+    "publishedYear": 1960,
+    "price": 12.99,
+    "imageUrl": "https://picsum.photos/300/400?random=2",
+    "reviews": [
+      {
+        "user": "Charlie",
+        "rating": 5,
+        "comment": "Powerful story."
+      }
+    ],
+    "description": "A story of racial injustice in the American South.",
+    "pages": 281,
+    "metadata": {
+      "publisher": "J.B. Lippincott & Co.",
+      "isbn": "978-0061120084"
+    }
+  },
+  {
+    "id": 3,
+    "title": "1984",
+    "author": {
+      "name": "George Orwell",
+      "bio": "English novelist and essayist known for dystopian works."
+    },
+    "genre": "Dystopian",
+    "publishedYear": 1949,
+    "price": 14.99,
+    "imageUrl": "https://picsum.photos/300/400?random=3",
+    "reviews": [
+      {
+        "user": "Diana",
+        "rating": 4,
+        "comment": "Thought-provoking."
+      },
+      {
+        "user": "Eve",
+        "rating": 5,
+        "comment": "Essential reading."
+      }
+    ],
+    "description": "A dystopian novel about totalitarianism.",
+    "pages": 328,
+    "metadata": {
+      "publisher": "Secker & Warburg",
+      "isbn": "978-0451524935"
+    }
+  },
+  {
+    "id": 4,
+    "title": "Pride and Prejudice",
+    "author": {
+      "name": "Jane Austen",
+      "bio": "English novelist known for her witty social commentary."
+    },
+    "genre": "Romance",
+    "publishedYear": 1813,
+    "price": 11.99,
+    "imageUrl": "https://picsum.photos/300/400?random=4",
+    "reviews": [
+      {
+        "user": "Frank",
+        "rating": 5,
+        "comment": "Romantic masterpiece."
+      }
+    ],
+    "description": "A romantic novel about manners and marriage.",
+    "pages": 279,
+    "metadata": {
+      "publisher": "T. Egerton",
+      "isbn": "978-0141439518"
+    }
+  },
+  {
+    "id": 5,
+    "title": "The Catcher in the Rye",
+    "author": {
+      "name": "J.D. Salinger",
+      "bio": "American writer known for his novel about teenage angst."
+    },
+    "genre": "Fiction",
+    "publishedYear": 1951,
+    "price": 13.99,
+    "imageUrl": "https://picsum.photos/300/400?random=5",
+    "reviews": [
+      {
+        "user": "Grace",
+        "rating": 4,
+        "comment": "Relatable story."
+      },
+      {
+        "user": "Henry",
+        "rating": 3,
+        "comment": "Overrated."
+      }
+    ],
+    "description": "A story of teenage rebellion and alienation.",
+    "pages": 277,
+    "metadata": {
+      "publisher": "Little, Brown and Company",
+      "isbn": "978-0316769488"
+    }
+  },
+  {
+    "id": 6,
+    "title": "Harry Potter and the Sorcerer's Stone",
+    "author": {
+      "name": "J.K. Rowling",
+      "bio": "British author famous for the Harry Potter series."
+    },
+    "genre": "Fantasy",
+    "publishedYear": 1997,
+    "price": 16.99,
+    "imageUrl": "https://picsum.photos/300/400?random=6",
+    "reviews": [
+      {
+        "user": "Ivy",
+        "rating": 5,
+        "comment": "Magical adventure."
+      }
+    ],
+    "description": "A young wizard's journey at Hogwarts.",
+    "pages": 309,
+    "metadata": {
+      "publisher": "Bloomsbury",
+      "isbn": "978-0747532699"
+    }
+  },
+  {
+    "id": 7,
+    "title": "The Lord of the Rings",
+    "author": {
+      "name": "J.R.R. Tolkien",
+      "bio": "English writer and philologist known for fantasy works."
+    },
+    "genre": "Fantasy",
+    "publishedYear": 1954,
+    "price": 25.99,
+    "imageUrl": "https://picsum.photos/300/400?random=7",
+    "reviews": [
+      {
+        "user": "Jack",
+        "rating": 5,
+        "comment": "Epic tale."
+      },
+      {
+        "user": "Kate",
+        "rating": 4,
+        "comment": "Long but worth it."
+      }
+    ],
+    "description": "An epic fantasy about the quest to destroy a ring.",
+    "pages": 1216,
+    "metadata": {
+      "publisher": "George Allen & Unwin",
+      "isbn": "978-0544003415"
+    }
+  },
+  {
+    "id": 8,
+    "title": "The Alchemist",
+    "author": {
+      "name": "Paulo Coelho",
+      "bio": "Brazilian author known for philosophical novels."
+    },
+    "genre": "Philosophy",
+    "publishedYear": 1988,
+    "price": 10.99,
+    "imageUrl": "https://picsum.photos/300/400?random=8",
+    "reviews": [
+      {
+        "user": "Liam",
+        "rating": 5,
+        "comment": "Inspiring."
+      }
+    ],
+    "description": "A story about following one's dreams.",
+    "pages": 208,
+    "metadata": {
+      "publisher": "HarperOne",
+      "isbn": "978-0061122415"
+    }
+  },
+  {
+    "id": 9,
+    "title": "Dune",
+    "author": {
+      "name": "Frank Herbert",
+      "bio": "American science fiction author."
+    },
+    "genre": "Science Fiction",
+    "publishedYear": 1965,
+    "price": 18.99,
+    "imageUrl": "https://picsum.photos/300/400?random=9",
+    "reviews": [
+      {
+        "user": "Mia",
+        "rating": 4,
+        "comment": "Complex world-building."
+      },
+      {
+        "user": "Noah",
+        "rating": 5,
+        "comment": "Sci-fi classic."
+      }
+    ],
+    "description": "A science fiction epic on a desert planet.",
+    "pages": 688,
+    "metadata": {
+      "publisher": "Chilton Books",
+      "isbn": "978-0441172719"
+    }
+  },
+  {
+    "id": 10,
+    "title": "The Hobbit",
+    "author": {
+      "name": "J.R.R. Tolkien",
+      "bio": "English writer and philologist known for fantasy works."
+    },
+    "genre": "Fantasy",
+    "publishedYear": 1937,
+    "price": 14.99,
+    "imageUrl": "https://picsum.photos/300/400?random=10",
+    "reviews": [
+      {
+        "user": "Olivia",
+        "rating": 5,
+        "comment": "Adventurous."
+      }
+    ],
+    "description": "A hobbit's unexpected journey.",
+    "pages": 310,
+    "metadata": {
+      "publisher": "George Allen & Unwin",
+      "isbn": "978-0547928227"
+    }
+  },
+  {
+    "id": 11,
+    "title": "Brave New World",
+    "author": {
+      "name": "Aldous Huxley",
+      "bio": "English writer known for dystopian fiction."
+    },
+    "genre": "Dystopian",
+    "publishedYear": 1932,
+    "price": 13.99,
+    "imageUrl": "https://picsum.photos/300/400?random=11",
+    "reviews": [
+      {
+        "user": "Parker",
+        "rating": 4,
+        "comment": "Disturbing yet insightful."
+      }
+    ],
+    "description": "A dystopian vision of a future society.",
+    "pages": 268,
+    "metadata": {
+      "publisher": "Chatto & Windus",
+      "isbn": "978-0060850524"
+    }
+  },
+  {
+    "id": 12,
+    "title": "The Chronicles of Narnia",
+    "author": {
+      "name": "C.S. Lewis",
+      "bio": "British writer and theologian known for fantasy."
+    },
+    "genre": "Fantasy",
+    "publishedYear": 1950,
+    "price": 22.99,
+    "imageUrl": "https://picsum.photos/300/400?random=12",
+    "reviews": [
+      {
+        "user": "Quinn",
+        "rating": 5,
+        "comment": "Magical series."
+      },
+      {
+        "user": "Ryan",
+        "rating": 4,
+        "comment": "Great for kids."
+      }
+    ],
+    "description": "A series of fantasy adventures in Narnia.",
+    "pages": 767,
+    "metadata": {
+      "publisher": "Geoffrey Bles",
+      "isbn": "978-0066238500"
+    }
+  },
+  {
+    "id": 13,
+    "title": "The Hitchhiker's Guide to the Galaxy",
+    "author": {
+      "name": "Douglas Adams",
+      "bio": "English writer known for humorous science fiction."
+    },
+    "genre": "Science Fiction",
+    "publishedYear": 1979,
+    "price": 12.99,
+    "imageUrl": "https://picsum.photos/300/400?random=13",
+    "reviews": [
+      {
+        "user": "Sophia",
+        "rating": 5,
+        "comment": "Hilarious."
+      }
+    ],
+    "description": "A comedic space adventure.",
+    "pages": 216,
+    "metadata": {
+      "publisher": "Pan Books",
+      "isbn": "978-0330258647"
+    }
+  },
+  {
+    "id": 14,
+    "title": "The Old Man and the Sea",
+    "author": {
+      "name": "Ernest Hemingway",
+      "bio": "American novelist and short-story writer."
+    },
+    "genre": "Fiction",
+    "publishedYear": 1952,
+    "price": 9.99,
+    "imageUrl": "https://picsum.photos/300/400?random=14",
+    "reviews": [
+      {
+        "user": "Tyler",
+        "rating": 4,
+        "comment": "Simple yet profound."
+      }
+    ],
+    "description": "A story of an old fisherman's struggle.",
+    "pages": 127,
+    "metadata": {
+      "publisher": "Charles Scribner's Sons",
+      "isbn": "978-0684801223"
+    }
+  },
+  {
+    "id": 15,
+    "title": "The Grapes of Wrath",
+    "author": {
+      "name": "John Steinbeck",
+      "bio": "American author known for social novels."
+    },
+    "genre": "Fiction",
+    "publishedYear": 1939,
+    "price": 16.99,
+    "imageUrl": "https://picsum.photos/300/400?random=15",
+    "reviews": [
+      {
+        "user": "Uma",
+        "rating": 5,
+        "comment": "Powerful depiction of hardship."
+      },
+      {
+        "user": "Victor",
+        "rating": 4,
+        "comment": "Historical significance."
+      }
+    ],
+    "description": "A novel about the Great Depression and migration.",
+    "pages": 464,
+    "metadata": {
+      "publisher": "Viking Press",
+      "isbn": "978-0143039433"
+    }
+  },
+  {
+    "id": 16,
+    "title": "Slaughterhouse-Five",
+    "author": {
+      "name": "Kurt Vonnegut",
+      "bio": "American writer known for satirical works."
+    },
+    "genre": "Science Fiction",
+    "publishedYear": 1969,
+    "price": 14.99,
+    "imageUrl": "https://picsum.photos/300/400?random=16",
+    "reviews": [
+      {
+        "user": "Wendy",
+        "rating": 4,
+        "comment": "Anti-war message."
+      }
+    ],
+    "description": "A satirical novel about war and time travel.",
+    "pages": 275,
+    "metadata": {
+      "publisher": "Delacorte",
+      "isbn": "978-0385333849"
+    }
+  },
+  {
+    "id": 17,
+    "title": "The Road",
+    "author": {
+      "name": "Cormac McCarthy",
+      "bio": "American novelist known for bleak narratives."
+    },
+    "genre": "Fiction",
+    "publishedYear": 2006,
+    "price": 15.99,
+    "imageUrl": "https://picsum.photos/300/400?random=17",
+    "reviews": [
+      {
+        "user": "Xander",
+        "rating": 5,
+        "comment": "Haunting story."
+      }
+    ],
+    "description": "A post-apocalyptic journey of a father and son.",
+    "pages": 287,
+    "metadata": {
+      "publisher": "Alfred A. Knopf",
+      "isbn": "978-0307265432"
+    }
+  },
+  {
+    "id": 18,
+    "title": "Neuromancer",
+    "author": {
+      "name": "William Gibson",
+      "bio": "American-Canadian writer, father of cyberpunk."
+    },
+    "genre": "Science Fiction",
+    "publishedYear": 1984,
+    "price": 13.99,
+    "imageUrl": "https://picsum.photos/300/400?random=18",
+    "reviews": [
+      {
+        "user": "Yara",
+        "rating": 4,
+        "comment": "Groundbreaking cyberpunk."
+      },
+      {
+        "user": "Zane",
+        "rating": 5,
+        "comment": "Influential."
+      }
+    ],
+    "description": "A cyberpunk novel about hackers and AI.",
+    "pages": 271,
+    "metadata": {
+      "publisher": "Ace Books",
+      "isbn": "978-0441569595"
+    }
+  },
+  {
+    "id": 19,
+    "title": "The Name of the Wind",
+    "author": {
+      "name": "Patrick Rothfuss",
+      "bio": "American fantasy author."
+    },
+    "genre": "Fantasy",
+    "publishedYear": 2007,
+    "price": 17.99,
+    "imageUrl": "https://picsum.photos/300/400?random=19",
+    "reviews": [
+      {
+        "user": "Aaron",
+        "rating": 5,
+        "comment": "Epic fantasy."
+      }
+    ],
+    "description": "The story of a gifted young man's journey.",
+    "pages": 662,
+    "metadata": {
+      "publisher": "DAW Books",
+      "isbn": "978-0756404079"
+    }
+  },
+  {
+    "id": 20,
+    "title": "The Martian",
+    "author": {
+      "name": "Andy Weir",
+      "bio": "American novelist known for science fiction."
+    },
+    "genre": "Science Fiction",
+    "publishedYear": 2011,
+    "price": 14.99,
+    "imageUrl": "https://picsum.photos/300/400?random=20",
+    "reviews": [
+      {
+        "user": "Bella",
+        "rating": 5,
+        "comment": "Thrilling survival story."
+      },
+      {
+        "user": "Caleb",
+        "rating": 4,
+        "comment": "Sci-fi fun."
+      }
+    ],
+    "description": "An astronaut's struggle to survive on Mars.",
+    "pages": 369,
+    "metadata": {
+      "publisher": "Crown Publishing Group",
+      "isbn": "978-0804139021"
+    }
+  }
+]

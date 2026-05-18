@@ -1,0 +1,272 @@
+[
+    {
+        "id": "001",
+        "title": "Wireless Headphones",
+        "code": "WH-001",
+        "category": "Electronics",
+        "brand": "SoundMax",
+        "price": 45000,
+        "stock": 25
+    },
+    {
+        "id": "002",
+        "title": "USB-C Cable",
+        "code": "UC-002",
+        "category": "Accessories",
+        "brand": "TechCable",
+        "price": 15000,
+        "stock": 50
+    },
+    {
+        "id": "003",
+        "title": "Mechanical Keyboard",
+        "code": "MK-003",
+        "category": "Peripherals",
+        "brand": "KeyMaster",
+        "price": 85000,
+        "stock": 15
+    },
+    {
+        "id": "004",
+        "title": "Optical Mouse",
+        "code": "OM-004",
+        "category": "Peripherals",
+        "brand": "MousePro",
+        "price": 35000,
+        "stock": 30
+    },
+    {
+        "id": "005",
+        "title": "Phone Screen Protector",
+        "code": "SP-005",
+        "category": "Protection",
+        "brand": "ShieldGlass",
+        "price": 25000,
+        "stock": 60
+    },
+    {
+        "id": "006",
+        "title": "Laptop Stand",
+        "code": "LS-006",
+        "category": "Furniture",
+        "brand": "ErgoDesk",
+        "price": 55000,
+        "stock": 20
+    },
+    {
+        "id": "007",
+        "title": "Power Bank 20000mAh",
+        "code": "PB-007",
+        "category": "Electronics",
+        "brand": "PowerTech",
+        "price": 65000,
+        "stock": 35
+    },
+    {
+        "id": "008",
+        "title": "Webcam HD",
+        "code": "WC-008",
+        "category": "Electronics",
+        "brand": "CamClear",
+        "price": 55000,
+        "stock": 18
+    },
+    {
+        "id": "009",
+        "title": "Desktop Monitor 24\"",
+        "code": "DM-009",
+        "category": "Electronics",
+        "brand": "ScreenPro",
+        "price": 250000,
+        "stock": 10
+    },
+    {
+        "id": "010",
+        "title": "Portable SSD 1TB",
+        "code": "PS-010",
+        "category": "Storage",
+        "brand": "FastDrive",
+        "price": 450000,
+        "stock": 12
+    },
+    {
+        "id": "011",
+        "title": "Phone Case Silikon",
+        "code": "PC-011",
+        "category": "Protection",
+        "brand": "CaseShield",
+        "price": 35000,
+        "stock": 75
+    },
+    {
+        "id": "012",
+        "title": "Charger 65W",
+        "code": "CH-012",
+        "category": "Accessories",
+        "brand": "PowerCharge",
+        "price": 125000,
+        "stock": 28
+    },
+    {
+        "id": "013",
+        "title": "HDMI Cable 2m",
+        "code": "HC-013",
+        "category": "Cables",
+        "brand": "CableMax",
+        "price": 45000,
+        "stock": 40
+    },
+    {
+        "id": "014",
+        "title": "RGB LED Strip",
+        "code": "RL-014",
+        "category": "Lighting",
+        "brand": "LightFusion",
+        "price": 75000,
+        "stock": 22
+    },
+    {
+        "id": "015",
+        "title": "Wireless Charger",
+        "code": "WCH-015",
+        "category": "Accessories",
+        "brand": "ChargeWire",
+        "price": 95000,
+        "stock": 16
+    },
+    {
+        "id": "016",
+        "title": "Cooling Pad Laptop",
+        "code": "CP-016",
+        "category": "Cooling",
+        "brand": "CoolTech",
+        "price": 85000,
+        "stock": 19
+    },
+    {
+        "id": "017",
+        "title": "Phone Holder Desk",
+        "code": "PH-017",
+        "category": "Accessories",
+        "brand": "HolderPro",
+        "price": 25000,
+        "stock": 55
+    },
+    {
+        "id": "018",
+        "title": "USB Hub 7 Port",
+        "code": "UH-018",
+        "category": "Accessories",
+        "brand": "HubTech",
+        "price": 65000,
+        "stock": 24
+    },
+    {
+        "id": "019",
+        "title": "Screen Cleaner Kit",
+        "code": "SCK-019",
+        "category": "Maintenance",
+        "brand": "CleanPro",
+        "price": 35000,
+        "stock": 45
+    },
+    {
+        "id": "020",
+        "title": "Desk Lamp LED",
+        "code": "DL-020",
+        "category": "Lighting",
+        "brand": "BrightDesk",
+        "price": 55000,
+        "stock": 20
+    },
+    {
+        "id": "021",
+        "title": "Mic Stand Professional",
+        "code": "MS-021",
+        "category": "Audio",
+        "brand": "VoiceStand",
+        "price": 145000,
+        "stock": 8
+    },
+    {
+        "id": "022",
+        "title": "XLR Cable 5m",
+        "code": "XLR-022",
+        "category": "Cables",
+        "brand": "AudioLine",
+        "price": 55000,
+        "stock": 32
+    },
+    {
+        "id": "023",
+        "title": "Pop Filter Mic",
+        "code": "PF-023",
+        "category": "Audio",
+        "brand": "VoiceGuard",
+        "price": 45000,
+        "stock": 17
+    },
+    {
+        "id": "024",
+        "title": "Monitor Arm Mount",
+        "code": "MAM-024",
+        "category": "Furniture",
+        "brand": "MountPro",
+        "price": 95000,
+        "stock": 14
+    },
+    {
+        "id": "025",
+        "title": "Keyboard Wrist Rest",
+        "code": "KWR-025",
+        "category": "Ergonomics",
+        "brand": "ComfortKey",
+        "price": 35000,
+        "stock": 42
+    },
+    {
+        "id": "026",
+        "title": "Cable Organizer Set",
+        "code": "CO-026",
+        "category": "Organization",
+        "brand": "NeatWire",
+        "price": 25000,
+        "stock": 65
+    },
+    {
+        "id": "027",
+        "title": "Mouse Pad XL",
+        "code": "MP-027",
+        "category": "Accessories",
+        "brand": "PadMax",
+        "price": 45000,
+        "stock": 38
+    },
+    {
+        "id": "028",
+        "title": "Desk Organizer",
+        "code": "DO-028",
+        "category": "Organization",
+        "brand": "OrganizeIt",
+        "price": 55000,
+        "stock": 26
+    },
+    {
+        "id": "029",
+        "title": "Laptop Bag 15\"",
+        "code": "LB-029",
+        "category": "Bags",
+        "brand": "CarryTech",
+        "price": 125000,
+        "stock": 11
+    },
+    {
+        "id": "030",
+        "title": "Phone Tempered Glass",
+        "code": "PTG-030",
+        "category": "Protection",
+        "brand": "SafeGlass",
+        "price": 45000,
+        "stock": 58
+    }
+]

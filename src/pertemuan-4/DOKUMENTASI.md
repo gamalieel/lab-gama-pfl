@@ -1,0 +1,206 @@
+/\*\*
+
+- ===============================================
+- BOOKS COLLECTION - DOKUMENTASI LENGKAP
+- ===============================================
+-
+- PROJECT OVERVIEW:
+- Aplikasi Books Collection adalah sistem manajemen dan tampilan data buku
+- dengan dua jenis tampilan: Guest View (Card) dan Admin View (Table)
+-
+- ===============================================
+- STRUKTUR FILE
+- ===============================================
+-
+- 1.  books.json
+- - File data JSON berisi 20 daftar buku
+- - Setiap buku memiliki:
+-      * Atribut utama (5+): id, title, author, genre, publishedYear, price, imageUrl, description, pages
+-      * Nested Structured Data (3):
+-        - author: {name, bio}
+-        - reviews: [{user, rating, comment}]
+-        - metadata: {publisher, isbn}
+-
+- 2.  BooksGuest.jsx
+- - Komponen untuk tampilan publik (Guest)
+- - Menampilkan buku dalam format CARD GRID
+- - Fitur: Search, 2 Filter (Genre & Year Range)
+- - State: books, searchTerm, selectedGenre, minYear, maxYear
+- - Hooks: useState, useEffect
+-
+- 3.  BooksAdmin.jsx
+- - Komponen untuk tampilan administrator
+- - Menampilkan buku dalam format TABLE
+- - Fitur: Search, 2 Filter (Genre & Year Range)
+- - Menampilkan semua nested data dengan terstruktur
+- - State: books, searchTerm, selectedGenre, minYear, maxYear
+- - Hooks: useState, useEffect
+-
+- 4.  BooksMain.jsx
+- - Komponen wrapper/parent untuk kedua tampilan
+- - Menyediakan toggle button untuk beralih Guest ↔ Admin
+- - State: view ('guest' atau 'admin')
+- - Conditional rendering berdasarkan view state
+-
+- ===============================================
+- FITUR UTAMA
+- ===============================================
+-
+- ✓ SEARCH FUNCTIONALITY (1 Input)
+- - Cari berdasarkan: Judul Buku atau Nama Penulis
+- - Real-time search (update seiring pengguna mengetik)
+- - Case-insensitive search
+-
+- ✓ FILTER #1: GENRE FILTER (Dropdown)
+- - Filter berdasarkan kategori/genre buku
+- - Dinamis: mengambil genre unik dari data
+- - Default: "All Genres"
+-
+- ✓ FILTER #2: YEAR RANGE FILTER (2 Input)
+- - Minimum Year: Filter buku dari tahun tertentu ke atas
+- - Maximum Year: Filter buku hingga tahun tertentu
+- - Dapat digunakan sendiri atau kombinasi
+-
+- ✓ DUAL VIEWS
+- - Guest View: Tampilan user-friendly dengan card design
+- - Admin View: Tampilan comprehensive dengan table layout
+-
+- ✓ RESPONSIVE DESIGN
+- - Guest View: Grid responsive (1 mobile, 2 tablet, 3 desktop)
+- - Admin View: Table dengan scroll horizontal untuk mobile
+-
+- ===============================================
+- STATE MANAGEMENT PATTERN
+- ===============================================
+-
+- const [books, setBooks] = useState(booksData);
+- → Menyimpan daftar buku yang sudah difilter
+- → Di-update oleh useEffect setiap ada perubahan filter
+-
+- const [searchTerm, setSearchTerm] = useState('');
+- → Menyimpan input pencarian user
+- → Di-update via onChange event pada input
+-
+- const [selectedGenre, setSelectedGenre] = useState('');
+- → Menyimpan genre yang dipilih
+- → Di-update via onChange event pada select dropdown
+-
+- const [minYear, setMinYear] = useState('');
+- const [maxYear, setMaxYear] = useState('');
+- → Menyimpan rentang tahun untuk filter
+- → Di-update via onChange event pada input number
+-
+- const [view, setView] = useState('guest');
+- → Menyimpan tampilan aktif di BooksMain
+- → Toggle antara 'guest' dan 'admin'
+-
+- ===============================================
+- FILTER FLOW EXPLANATION
+- ===============================================
+-
+- User Input → onChange Event → Update State
+-                                    ↓
+-                    useEffect triggers (dependencies changed)
+-                                    ↓
+-                    Filter Logic Executes:
+-                    1. Start with all booksData
+-                    2. Apply search filter (if searchTerm exists)
+-                    3. Apply genre filter (if selectedGenre exists)
+-                    4. Apply minYear filter (if minYear exists)
+-                    5. Apply maxYear filter (if maxYear exists)
+-                                    ↓
+-                    setBooks(filteredBooks) → Update State
+-                                    ↓
+-                    Component Re-renders with Filtered Data
+-
+- ===============================================
+- NESTED DATA DISPLAY EXAMPLES
+- ===============================================
+-
+- AUTHOR OBJECT (Nested Data):
+- {
+- "name": "F. Scott Fitzgerald",
+- "bio": "American novelist known for his works in the Jazz Age."
+- }
+- → Guest View: Tampilkan hanya "name"
+- → Admin View: Tampilkan "name" + "bio"
+-
+- REVIEWS ARRAY (Nested Array of Objects):
+- [
+- {
+-     "user": "Alice",
+-     "rating": 5,
+-     "comment": "A timeless classic!"
+- },
+- {
+-     "user": "Bob",
+-     "rating": 4,
+-     "comment": "Great read."
+- }
+- ]
+- → Iterasi dengan .map() untuk menampilkan setiap review
+-
+- METADATA OBJECT (Nested Data):
+- {
+- "publisher": "Scribner",
+- "isbn": "978-0743273565"
+- }
+- → Guest View: Tidak ditampilkan
+- → Admin View: Ditampilkan di kolom terakhir
+-
+- ===============================================
+- DATA FLOW DIAGRAM
+- ===============================================
+-
+-                         BooksMain.jsx
+-                              │
+-          ┌────────────────────┼────────────────────┐
+-          │                    │                    │
+-          ↓                    ↓                    ↓
+-      view state         Guest Button          Admin Button
+-     (guest/admin)            │                    │
+-          │                    └────┬───────────┬──┘
+-          │                         │           │
+-          ├─────────────────────────┴───→ setView()
+-          │
+-       if view === 'guest'
+-       │                    if view === 'admin'
+-       ↓                    ↓
+- BooksGuest.jsx BooksAdmin.jsx
+- (Card Layout) (Table Layout)
+-       │                       │
+-       ├─── Search Input ──────┤
+-       ├─ Genre Filter (dropdown) ─┤
+-       ├─ Year Filter (min/max) ─┤
+-       │
+-       ├──→ useEffect detects filter change
+-       │
+-       ├──→ Apply all filters
+-       │
+-       ├──→ setBooks(filteredBooks)
+-       │
+-       └──→ Render filtered data
+-            - Card: 1x3 grid responsive
+-            - Table: All columns with nested data
+-
+- ===============================================
+- PENGGUNAAN DI main.jsx
+- ===============================================
+-
+- import BooksMain from './BooksMain';
+-
+- createRoot(document.getElementById('root'))
+- .render(<BooksMain />)
+-
+- ===============================================
+- TEKNOLOGI YANG DIGUNAKAN
+- ===============================================
+-
+- ✓ React Hooks: useState, useEffect
+- ✓ Tailwind CSS: Styling & Responsive Design
+- ✓ JavaScript Array Methods: .filter(), .map(), .set()
+- ✓ ES6 Features: Destructuring, Arrow Functions, Spread Operator
+- ✓ JSON: Data storage & retrieval
+-
+- ===============================================
+  \*/
