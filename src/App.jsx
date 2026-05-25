@@ -1,6 +1,7 @@
 import React, { Suspense, useState, useMemo } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
+import FiturXyz from "./pages/Main/FiturXyz";
 //import Loading from "./components/Loading";
 // import Orders from "./pages/Main/Orders";
 // import MainLayout from "./layout/MainLayout";
@@ -34,6 +35,7 @@ const initialMenuItems = [
     { id: "orders", label: "Orders", removable: false },
     { id: "customers", label: "Customers", removable: false },
     { id: "products", label: "Products", removable: false },
+    
 ];
 
 // Data awal untuk orders (pesanan)
@@ -443,6 +445,13 @@ export default function App() {
                         path="/components"
                         element={
                             <Components
+                           />
+                        }
+                    />
+                    <Route
+                        path="/fitur-xyz"
+                        element={
+                            <FiturXyz
                            />
                         }
                     />
