@@ -2,6 +2,7 @@ import React, { Suspense, useState, useMemo } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import FiturXyz from "./pages/Main/FiturXyz";
+import Note from "./pages/Main/Note";
 //import Loading from "./components/Loading";
 // import Orders from "./pages/Main/Orders";
 // import MainLayout from "./layout/MainLayout";
@@ -452,6 +453,13 @@ export default function App() {
                         path="/fitur-xyz"
                         element={
                             <FiturXyz
+                           />
+                        }
+                    />
+                    <Route
+                        path="/notes"
+                        element={
+                            <Note
                            />
                         }
                     />
