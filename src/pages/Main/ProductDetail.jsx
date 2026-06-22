@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import productsData from "../../data/products.json";
+import { getProductById } from "../../lib/supabase";
 
 /**
  * ProductDetail Component - Halaman untuk menampilkan detail produk tertentu
@@ -30,17 +30,31 @@ export default function ProductDetail() {
      * Mencari produk di array productsData dengan id yang sesuai
      */
     useEffect(() => {
-        // Cari produk berdasarkan id dari parameter URL
-        const foundProduct = productsData.find((item) => item.id === id);
+        async function loadProduct() {
+            try {
+                const foundProduct = await getProductById(id);
 
-        if (!foundProduct) {
-            // Jika produk tidak ditemukan, set error message
-            setError(`Produk dengan ID "${id}" tidak ditemukan`);
-            return;
+                if (!foundProduct) {
+                    setError(`Produk dengan ID "${id}" tidak ditemukan`);
+                    return;
+                }
+
+                // Map Supabase data ke format yang diharapkan UI
+                setProduct({
+                    id: foundProduct.id,
+                    title: foundProduct.name,
+                    code: foundProduct.id.substring(0, 8),
+                    category: foundProduct.description || "",
+                    brand: "",
+                    price: foundProduct.price,
+                    stock: foundProduct.stock,
+                });
+            } catch (err) {
+                setError(`Gagal memuat produk: ${err.message}`);
+            }
         }
 
-        // Set produk yang ditemukan ke state
-        setProduct(foundProduct);
+        loadProduct();
     }, [id]);
 
     /**

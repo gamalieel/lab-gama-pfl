@@ -13,13 +13,13 @@ import PageHeader from "../../components/PageHeader";
  * @param {function} onAddOrder - Callback untuk menambah order baru
  * @param {boolean} isEmpty - Status apakah daftar orders kosong (saat search)
  */
-export default function Orders({ orders, onAddOrder, isEmpty }) {
+export default function Orders({ orders, products = [], profile, onAddOrder, isEmpty }) {
     // State untuk menyimpan nilai input form order
     const [orderForm, setOrderForm] = useState({
         customer: "",
         item: "",
         total: "",
-        status: "Preparing",
+        status: "Pending",
     });
 
     /**
@@ -29,9 +29,8 @@ export default function Orders({ orders, onAddOrder, isEmpty }) {
      * @returns {string} CSS class untuk styling status badge
      */
     function getOrderStatusClass(status) {
-        if (status === "Delivered") return "order-status delivered";
-        if (status === "On Delivery") return "order-status on-delivery";
-        if (status === "Preparing") return "order-status preparing";
+        if (status === "Completed") return "order-status delivered";
+        if (status === "Pending") return "order-status preparing";
         return "order-status canceled";
     }
 
@@ -58,7 +57,7 @@ export default function Orders({ orders, onAddOrder, isEmpty }) {
             customer: "",
             item: "",
             total: "",
-            status: "Preparing",
+            status: "Pending",
         });
     }
 
@@ -75,24 +74,29 @@ export default function Orders({ orders, onAddOrder, isEmpty }) {
                         type="text"
                         placeholder="Customer name"
                         aria-label="Customer name"
-                        value={orderForm.customer}
+                        value={profile?.full_name || orderForm.customer}
                         onChange={(event) =>
                             setOrderForm((current) => ({ ...current, customer: event.target.value }))
                         }
                         required
                     />
 
-                    {/* Input menu item */}
-                    <input
-                        type="text"
-                        placeholder="Menu item"
-                        aria-label="Menu item"
+                    {/* Dropdown produk dari Supabase */}
+                    <select
+                        aria-label="Product"
                         value={orderForm.item}
                         onChange={(event) =>
                             setOrderForm((current) => ({ ...current, item: event.target.value }))
                         }
                         required
-                    />
+                    >
+                        <option value="">-- Select Product --</option>
+                        {products.map((p) => (
+                            <option key={p.id} value={p.id}>
+                                {p.title} ({new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(p.price)})
+                            </option>
+                        ))}
+                    </select>
 
                     {/* Input total harga (dalam angka) */}
                     <input
@@ -114,10 +118,9 @@ export default function Orders({ orders, onAddOrder, isEmpty }) {
                             setOrderForm((current) => ({ ...current, status: event.target.value }))
                         }
                     >
-                        <option value="Preparing">Preparing</option>
-                        <option value="On Delivery">On Delivery</option>
-                        <option value="Delivered">Delivered</option>
-                        <option value="Canceled">Canceled</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
                     </select>
 
                     {/* Tombol submit form */}

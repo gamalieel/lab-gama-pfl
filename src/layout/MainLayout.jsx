@@ -12,6 +12,7 @@ export default function MainLayout({
     onSearchChange,
     pageTitle,
     pageBreadcrumb,
+    onLogout,
     children,
 }) {
     return (
@@ -31,11 +32,21 @@ export default function MainLayout({
                         onSearchChange={onSearchChange}
                     />
                     <div className="mt-6 min-w-0 space-y-6">
-                        <PageHeader
-                            title={pageTitle}
-                            subtitle={pageBreadcrumb}
-                            actionLabel="Add Button"
-                        />
+                        <div className="flex items-center justify-between">
+                            <PageHeader
+                                title={pageTitle}
+                                subtitle={pageBreadcrumb}
+                                actionLabel="Add Button"
+                            />
+                            {onLogout && (
+                                <button
+                                    onClick={onLogout}
+                                    className="text-sm text-red-500 hover:text-red-700 font-medium px-3 py-1 rounded border border-red-300 hover:border-red-500 transition"
+                                >
+                                    Logout
+                                </button>
+                            )}
+                        </div>
 
                         {children}
                     </div>

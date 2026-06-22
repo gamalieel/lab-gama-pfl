@@ -1,8 +1,18 @@
-import React, { Suspense, useState, useMemo } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import React, { Suspense, useState, useMemo, useEffect } from "react";
+import { Routes, Route, useLocation, useNavigate, Navigate } from "react-router-dom";
 import "./App.css";
 import FiturXyz from "./pages/Main/FiturXyz";
 import Note from "./pages/Main/Note";
+import {
+    supabase,
+    getMyProfile,
+    getAllOrders,
+    getAllProfiles,
+    getAllProducts,
+    createOrder,
+    updateProfile,
+    signOut,
+} from "./lib/supabase";
 //import Loading from "./components/Loading";
 // import Orders from "./pages/Main/Orders";
 // import MainLayout from "./layout/MainLayout";
@@ -39,24 +49,6 @@ const initialMenuItems = [
     
 ];
 
-// Data awal untuk orders (pesanan)
-const orderRows = [
-    { id: "001", customer: "Gama", item: "Ayam", total: "Rp.78.000", status: "Preparing" },
-    { id: "002", customer: "Liel", item: "Kebab", total: "Rp.92.000", status: "On Delivery" },
-    { id: "003", customer: "Paldo", item: "Burger", total: "Rp.105.000", status: "Delivered" },
-    { id: "004", customer: "Yogi", item: "Coffe", total: "Rp.64.000", status: "Canceled" },
-    { id: "005", customer: "Hayukk", item: "Pizza", total: "Rp.88.000", status: "Preparing" },
-];
-
-// Data awal untuk customers (pelanggan)
-const customerRows = [
-    { id: "001", name: "Gama", email: "Gama@email.com", totalOrder: 14, city: "Bandung", tier: "Gold" },
-    { id: "002", name: "Liel", email: "Liel@email.com", totalOrder: 9, city: "Jakarta", tier: "Silver" },
-    { id: "003", name: "Paldo", email: "Paldo@email.com", totalOrder: 21, city: "Surabaya", tier: "Platinum" },
-    { id: "004", name: "Yogi", email: "Yogi@email.com", totalOrder: 5, city: "Malang", tier: "Bronze" },
-    { id: "005", name: "Hayukk", email: "Hayukk@email.com", totalOrder: 12, city: "Semarang", tier: "Gold" },
-];
-
 /**
  * parseRupiah - Mengubah teks rupiah seperti Rp.78.000 menjadi angka
  * @param {string|number} value - Nilai dalam format rupiah atau angka
@@ -74,21 +66,6 @@ function parseRupiah(value) {
  */
 function formatRupiah(value) {
     return `Rp.${new Intl.NumberFormat("id-ID").format(value)}`;
-}
-
-/**
- * getNextId - Menghasilkan ID 3 digit berikutnya dari daftar item
- * Contoh: jika ID terakhir adalah 005, maka akan menghasilkan 006
- * @param {Array} items - Daftar item yang memiliki properti id
- * @returns {string} ID 3 digit dengan padding nol di depan
- */
-function getNextId(items) {
-    const maxId = items.reduce((maxValue, item) => {
-        const numeric = Number(String(item.id).replace(/[^0-9]/g, ""));
-        return numeric > maxValue ? numeric : maxValue;
-    }, 0);
-
-    return String(maxId + 1).padStart(3, "0");
 }
 
 /**
@@ -110,10 +87,118 @@ export default function App() {
     const [searchQuery, setSearchQuery] = useState("");
     // State untuk menyimpan daftar menu di sidebar
     const [menuItems, setMenuItems] = useState(initialMenuItems);
-    // State untuk menyimpan data orders
-    const [ordersData, setOrdersData] = useState(orderRows);
-    // State untuk menyimpan data customers
-    const [customersData, setCustomersData] = useState(customerRows);
+    // State untuk menyimpan data orders (dari Supabase)
+    const [ordersData, setOrdersData] = useState([]);
+    // State untuk menyimpan data customers (dari Supabase)
+    const [customersData, setCustomersData] = useState([]);
+    // State untuk menyimpan data products (dari Supabase)
+    const [productsData, setProductsData] = useState([]);
+    // Auth state
+    const [user, setUser] = useState(null);
+    const [profile, setProfile] = useState(null);
+    const [authLoading, setAuthLoading] = useState(true);
+    const [dataLoading, setDataLoading] = useState(false);
+    const navigate = useNavigate();
+
+    /**
+     * fetchAllData - Mengambil semua data dari Supabase
+     */
+    async function fetchAllData() {
+        setDataLoading(true);
+        try {
+            const [ordersResult, profilesResult, productsResult] = await Promise.all([
+                getAllOrders(),
+                getAllProfiles(),
+                getAllProducts(),
+            ]);
+
+            // Map orders dari Supabase ke format yang diharapkan UI
+            setOrdersData(
+                ordersResult.map((order) => ({
+                    id: order.id,
+                    customer: order.profiles?.full_name || "Unknown",
+                    item: order.order_items
+                        ? order.order_items.map((oi) => oi.product_id).join(", ")
+                        : "-",
+                    total: formatRupiah(order.total_price),
+                    status: order.status,
+                }))
+            );
+
+            // Map profiles ke format customers yang diharapkan UI
+            setCustomersData(
+                profilesResult.map((p) => ({
+                    id: p.id,
+                    name: p.full_name || "",
+                    email: p.email || "",
+                    totalOrder: p.total_orders || 0,
+                    city: p.city || "",
+                    tier: p.tier || "Bronze",
+                }))
+            );
+
+            setProductsData(
+                productsResult.map((p) => ({
+                    id: p.id,
+                    title: p.name,
+                    code: p.id.substring(0, 8),
+                    category: p.description || "",
+                    brand: "",
+                    price: p.price,
+                    stock: p.stock,
+                }))
+            );
+        } catch (err) {
+            console.error("Gagal mengambil data:", err);
+        } finally {
+            setDataLoading(false);
+        }
+    }
+
+    // Auth listener - mendeteksi perubahan status login
+    useEffect(() => {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(
+            async (event, session) => {
+                if (event === "SIGNED_IN" && session?.user) {
+                    setUser(session.user);
+                    try {
+                        const p = await getMyProfile();
+                        setProfile(p);
+                    } catch (err) {
+                        console.error("Gagal mengambil profil:", err);
+                    }
+                } else if (event === "SIGNED_OUT") {
+                    setUser(null);
+                    setProfile(null);
+                    setOrdersData([]);
+                    setCustomersData([]);
+                    setProductsData([]);
+                }
+                setAuthLoading(false);
+            }
+        );
+
+        return () => subscription.unsubscribe();
+    }, []);
+
+    // Fetch data saat user sudah login
+    useEffect(() => {
+        if (user) {
+            fetchAllData();
+        }
+    }, [user]);
+
+    /**
+     * handleLogout - Logout user dari Supabase Auth
+     */
+    async function handleLogout() {
+        try {
+            await signOut();
+            navigate("/login");
+        } catch (err) {
+            console.error("Gagal logout:", err);
+        }
+    }
 
     /**
      * dashboardCards - Menghitung statistik dashboard dari data orders
@@ -122,17 +207,17 @@ export default function App() {
      */
     const dashboardCards = useMemo(() => {
         const totalOrders = ordersData.length;
-        const totalDelivered = ordersData.filter((item) => item.status === "Delivered").length;
-        const totalCanceled = ordersData.filter((item) => item.status === "Canceled").length;
+        const totalDelivered = ordersData.filter((item) => item.status === "Completed").length;
+        const totalCanceled = ordersData.filter((item) => item.status === "Cancelled").length;
         const totalRevenue = ordersData.reduce(
-            (total, item) => total + (item.status === "Canceled" ? 0 : parseRupiah(item.total)),
+            (total, item) => total + (item.status === "Cancelled" ? 0 : parseRupiah(item.total)),
             0,
         );
 
         return [
             { id: "orders", icon: "cart", value: String(totalOrders), label: "Total Orders" },
-            { id: "delivered", icon: "truck", value: String(totalDelivered), label: "Total Delivered" },
-            { id: "canceled", icon: "ban", value: String(totalCanceled), label: "Total Canceled" },
+            { id: "delivered", icon: "truck", value: String(totalDelivered), label: "Total Completed" },
+            { id: "canceled", icon: "ban", value: String(totalCanceled), label: "Total Cancelled" },
             { id: "revenue", icon: "money", value: formatRupiah(totalRevenue), label: "Total Revenue" },
         ];
     }, [ordersData]);
@@ -237,66 +322,44 @@ export default function App() {
      * Juga sinkronisasi dengan data customers
      */
     function handleAddOrder(orderPayload) {
-        const newOrderId = getNextId(ordersData);
-        const normalizedTotal = formatRupiah(parseRupiah(orderPayload.total));
+        if (!profile) return;
 
-        setOrdersData((currentOrders) => [
-            {
-                id: newOrderId,
-                customer: orderPayload.customer.trim(),
-                item: orderPayload.item.trim(),
-                total: normalizedTotal,
-                status: orderPayload.status,
-            },
-            ...currentOrders,
-        ]);
-
-        // Sinkronkan customer: jika sudah ada, totalOrder naik; jika belum, buat baru
-        setCustomersData((currentCustomers) => {
-            const targetName = orderPayload.customer.trim().toLowerCase();
-            const existingCustomer = currentCustomers.find(
-                (customer) => customer.name.toLowerCase() === targetName,
-            );
-
-            if (existingCustomer) {
-                return currentCustomers.map((customer) =>
-                    customer.name.toLowerCase() === targetName
-                        ? { ...customer, totalOrder: customer.totalOrder + 1 }
-                        : customer,
+        async function doCreateOrder() {
+            try {
+                await createOrder(
+                    [{
+                        product_id: orderPayload.item,
+                        quantity: 1,
+                        price_at_purchase: parseRupiah(orderPayload.total),
+                    }],
+                    profile
                 );
+                await fetchAllData();
+            } catch (err) {
+                console.error("Gagal membuat order:", err);
             }
-
-            return [
-                {
-                    id: getNextId(currentCustomers),
-                    name: orderPayload.customer.trim(),
-                    email: `${orderPayload.customer.trim().replace(/\s+/g, "").toLowerCase()}@email.com`,
-                    totalOrder: 1,
-                    city: "Unknown",
-                    tier: "Bronze",
-                },
-                ...currentCustomers,
-            ];
-        });
+        }
+        doCreateOrder();
     }
 
     /**
      * handleAddCustomer - Menambahkan customer baru dari form Customers
      */
     function handleAddCustomer(customerPayload) {
-        const newCustomerId = getNextId(customersData);
-
-        setCustomersData((currentCustomers) => [
-            {
-                id: newCustomerId,
-                name: customerPayload.name.trim(),
-                email: customerPayload.email.trim(),
-                totalOrder: Number(customerPayload.totalOrder || 0),
-                city: customerPayload.city.trim(),
-                tier: customerPayload.tier,
-            },
-            ...currentCustomers,
-        ]);
+        async function doAddCustomer() {
+            try {
+                await updateProfile(customerPayload.id, {
+                    full_name: customerPayload.name.trim(),
+                    email: customerPayload.email.trim(),
+                    city: customerPayload.city.trim(),
+                    tier: customerPayload.tier,
+                });
+                await fetchAllData();
+            } catch (err) {
+                console.error("Gagal menambah customer:", err);
+            }
+        }
+        doAddCustomer();
     }
 
     /**
@@ -354,6 +417,12 @@ export default function App() {
     const isCustomersEmpty = filteredCustomers.length === 0;
 
     if (isAuthPage) {
+        if (authLoading) {
+            return <div className="p-4 text-sm text-gray-500">Loading app...</div>;
+        }
+        if (user) {
+            return <Navigate to="/" replace />;
+        }
         return (
             <Suspense fallback={<div className="p-4 text-sm text-gray-500">Loading app...</div>}>
                 <Routes>
@@ -368,6 +437,14 @@ export default function App() {
         );
     }
 
+    // Route protection: user harus login untuk mengakses dashboard
+    if (authLoading || dataLoading) {
+        return <div className="p-4 text-sm text-gray-500">Loading app...</div>;
+    }
+    if (!user) {
+        return <Navigate to="/login" replace />;
+    }
+
     return (
        <Suspense fallback={<Loading />}>
             <MainLayout
@@ -380,6 +457,7 @@ export default function App() {
                 onSearchChange={handleSearchChange}
                 pageTitle={pageTitle}
                 pageBreadcrumb={pageBreadcrumb}
+                onLogout={handleLogout}
             >
                 <Routes>
                     <Route
@@ -390,6 +468,8 @@ export default function App() {
                                 cards={filteredDashboardCards}
                                 orders={filteredOrders}
                                 customers={filteredCustomers}
+                                products={productsData}
+                                profile={profile}
                                 onAddOrder={handleAddOrder}
                                 onAddCustomer={handleAddCustomer}
                                 searchQuery={searchQuery}
@@ -399,32 +479,14 @@ export default function App() {
                             />
                         }
                     />
-
-                    {/* Kode sebelumnya (disimpan sebagai komentar, tidak dihapus):
-                    <Route
-                        path="/"
-                        element={
-                            <Dashboard
-                                activeSection={activeSection}
-                                cards={filteredDashboardCards}
-                                orders={filteredOrders}
-                                customers={filteredCustomers}
-                                onAddOrder={handleAddOrder}
-                                onAddCustomer={handleAddCustomer}
-                                searchQuery={searchQuery}
-                                isEmpty={isDashboardEmpty}
-                                isOrdersEmpty={isOrdersEmpty}
-                                isCustomersEmpty={isCustomersEmpty}
-                            />
-                        }
-                    />
-                    */}
 
                     <Route
                         path="/orders"
                         element={
                             <Orders
                                 orders={filteredOrders}
+                                products={productsData}
+                                profile={profile}
                                 onAddOrder={handleAddOrder}
                                 isEmpty={isOrdersEmpty}
                             />
@@ -445,32 +507,19 @@ export default function App() {
                     <Route
                         path="/components"
                         element={
-                            <Components
-                           />
+                            <Components />
                         }
                     />
                     <Route
                         path="/fitur-xyz"
                         element={
-                            <FiturXyz
-                           />
+                            <FiturXyz />
                         }
                     />
                     <Route
                         path="/notes"
                         element={
-                            <Note
-                           />
-                        }
-                    />
-                    <Route
-                        path="/customers"
-                        element={
-                            <Customers
-                                customers={filteredCustomers}
-                                onAddCustomer={handleAddCustomer}
-                                isEmpty={isCustomersEmpty}
-                            />
+                            <Note />
                         }
                     />
                     <Route
@@ -483,7 +532,7 @@ export default function App() {
                     <Route
                         path="/products"
                         element={
-                            <Products isEmpty={false} />
+                            <Products products={productsData} isEmpty={false} />
                         }
                     />
 

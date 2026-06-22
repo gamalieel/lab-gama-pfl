@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 const API_URL = "https://ignpqffzzrgzeoxnwaph.supabase.co/rest/v1/note"
-const API_KEY = "sb_publishable_B_ymDoGKmleGK3Dfn6MPaQ_fpHDN-Pn"
+const API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlnbnBxZmZ6enJnemVveG53YXBoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4OTcyOTIsImV4cCI6MjA5NjQ3MzI5Mn0.bdQq9nSTX6Nw_427QhOsPEgwkETJ1lVrPlHmEpkm1KI"
 
 const headers = {
     apikey: API_KEY,

@@ -30,6 +30,8 @@ export default function Dashboard({
     cards,
     orders,
     customers,
+    products = [],
+    profile,
     onAddOrder,
     onAddCustomer,
     searchQuery,
@@ -42,7 +44,7 @@ export default function Dashboard({
         customer: "",
         item: "",
         total: "",
-        status: "Preparing",
+        status: "Pending",
     });
 
     // State form untuk menambah customer dari halaman Customers.
@@ -64,9 +66,8 @@ export default function Dashboard({
 
     // Menentukan class status agar badge order punya warna yang berbeda.
     function getOrderStatusClass(status) {
-        if (status === "Delivered") return "order-status delivered";
-        if (status === "On Delivery") return "order-status on-delivery";
-        if (status === "Preparing") return "order-status preparing";
+        if (status === "Completed") return "order-status delivered";
+        if (status === "Pending") return "order-status preparing";
         return "order-status canceled";
     }
 
@@ -91,7 +92,7 @@ export default function Dashboard({
             customer: "",
             item: "",
             total: "",
-            status: "Preparing",
+            status: "Pending",
         });
     }
 
@@ -123,22 +124,27 @@ export default function Dashboard({
                             type="text"
                             placeholder="Customer name"
                             aria-label="Customer name"
-                            value={orderForm.customer}
+                            value={profile?.full_name || orderForm.customer}
                             onChange={(event) =>
                                 setOrderForm((current) => ({ ...current, customer: event.target.value }))
                             }
                             required
                         />
-                        <input
-                            type="text"
-                            placeholder="Menu item"
-                            aria-label="Menu item"
+                        <select
+                            aria-label="Product"
                             value={orderForm.item}
                             onChange={(event) =>
                                 setOrderForm((current) => ({ ...current, item: event.target.value }))
                             }
                             required
-                        />
+                        >
+                            <option value="">-- Select Product --</option>
+                            {products.map((p) => (
+                                <option key={p.id} value={p.id}>
+                                    {p.title} ({new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(p.price)})
+                                </option>
+                            ))}
+                        </select>
                         <input
                             type="text"
                             placeholder="Total (contoh: 78000)"
@@ -156,10 +162,9 @@ export default function Dashboard({
                                 setOrderForm((current) => ({ ...current, status: event.target.value }))
                             }
                         >
-                            <option value="Preparing">Preparing</option>
-                            <option value="On Delivery">On Delivery</option>
-                            <option value="Delivered">Delivered</option>
-                            <option value="Canceled">Canceled</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
                         </select>
                         <button type="submit">Add Order</button>
                     </form>

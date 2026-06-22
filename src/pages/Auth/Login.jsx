@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { signInWithEmail, getMyProfile } from "../../lib/supabase";
 import { BsFillExclamationDiamondFill } from "react-icons/bs";
 import { ImSpinner2 } from "react-icons/im";
 
@@ -22,38 +22,29 @@ export default function Login() {
         });
     };
 
-    /* process form */
+    /* process form - Supabase Auth login */
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         setLoading(true);
-        setError(false);
+        setError("");
 
-        axios
-            .post("https://dummyjson.com/user/login", {
-                username: dataForm.email,
-                password: dataForm.password,
-            })
-            .then((response) => {
-                // Jika status bukan 200, tampilkan pesan error
-                if (response.status !== 200) {
-                    setError(response.data.message);
-                    return;
-                }
+        try {
+            await signInWithEmail(dataForm.email, dataForm.password);
+            const profile = await getMyProfile();
 
-                // Redirect ke dashboard jika login sukses
-                navigate("/");
-            })
-            .catch((err) => {
-                if (err.response) {
-                    setError(err.response.data.message || "An error occurred");
-                } else {
-                    setError(err.message || "An unknown error occurred");
-                }
-            })
-            .finally(() => {
+            if (profile && profile.role === "Guest") {
+                setError("Akun Guest tidak dapat mengakses dashboard.");
                 setLoading(false);
-            });
+                return;
+            }
+
+            navigate("/");
+        } catch (err) {
+            setError(err.message || "Login gagal. Periksa email dan password Anda.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     	/* error & loading status */
@@ -94,8 +85,6 @@ export default function Login() {
                         className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm
                             placeholder-gray-400"
                         placeholder="you@example.com"
-                        name="email"
-                        onChange={handleChange}
                     />
                 </div>
                 <div className="mb-6">
@@ -111,8 +100,6 @@ export default function Login() {
                         className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm
                             placeholder-gray-400"
                         placeholder="********"
-                        name="password"
-                        onChange={handleChange}
                     />
                 </div>
                 <button

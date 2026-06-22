@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import productsData from "../../data/products.json";
 
 /**
  * Products Component - Halaman untuk menampilkan daftar produk
@@ -13,19 +12,12 @@ import productsData from "../../data/products.json";
  * 
  * @param {boolean} isEmpty - Status apakah daftar produk kosong (saat search)
  */
-export default function Products({ isEmpty }) {
-    // State untuk menyimpan daftar produk yang ditampilkan
-    const [products, setProducts] = useState([]);
+export default function Products({ products: productsFromSupabase = [] }) {
     // State untuk menyimpan nilai input search
     const [searchQuery, setSearchQuery] = useState("");
 
-    /**
-     * useEffect - Menginisialisasi data produk dari JSON pada saat component mount
-     * Dijalankan satu kali saat component pertama kali di-render
-     */
-    useEffect(() => {
-        setProducts(productsData);
-    }, []);
+    // Gunakan data dari Supabase (diterima via props)
+    const products = productsFromSupabase;
 
     /**
      * handleSearchChange - Menangani perubahan input search
